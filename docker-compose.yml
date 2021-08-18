@@ -1,0 +1,36 @@
+version: "3"
+services:
+  db:
+    image: postgres
+    restart: always
+    volumes:
+      - ./tmp/db:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: db
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: pass
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
+      TZ: "Asia/Tokyo"
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    tty: true
+    volumes:
+      - ./:/go/src/app
+    ports:
+      - 8080:8080
+    # command: "gin --appPort 8080 --port 3000"
+    environment:
+      DB_HOST: localhost
+      DB_PORT: "5432"
+      DB_NAME: db
+      DB_USERNAME: admin
+      DB_PASS: pass
+    env_file:
+      - .env
+    depends_on:
+      - db

@@ -1,0 +1,22 @@
+schema:
+  - ./graphql/schema/*.graphql
+
+# スキーマGo実装ファイルの生成場所
+exec:
+  filename: ./graphql/generated/generated.go
+  package: generated
+
+# モデル構造体ファイルの生成場所
+model:
+  filename: ./graphql/models_gen.go
+  package: graphql
+
+# resolver(GraphqlQL版controller的なもの)ファイルの生成場所
+resolver:
+  layout: follow-schema
+  dir: ./graphql/resolver
+  package: resolver
+
+# autobind:
+#   - "github.com/kazuki-komori/go-gql-sample/graphql/schema"
+
